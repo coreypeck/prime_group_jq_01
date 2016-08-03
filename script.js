@@ -1,13 +1,15 @@
+//Random Number function
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (1 + max - min) + min);
 }
+//Array that will store our Fruit objects (Made by Constructor)
 var fruitArray = [];
-//Constructor
+//The Constructor mentioned above
 function Fruit(name, price) {
     this.name = name,
         this.price = price;
 }
-var price = 2;
+//Initializes the Cash and Seconds variables
 var totalCash = 100;
 var seconds = 0;
 //Constructed Objects
@@ -15,77 +17,65 @@ var apple = new Fruit("apple", 2);
 var orange = new Fruit("orange", 2);
 var banana = new Fruit("banana", 2);
 var pear = new Fruit("pear", 2);
-//Puches Objects to Array
+//Pushes Objects to Array
 fruitArray.push(apple, orange, banana, pear);
-console.log(fruitArray);
 $("document").ready(function() {
-    updating();
+	//Appends the original image/button/price to the DOM
     $('.market').append('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
     $('.market').append('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
     $('.market').append('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
     $('.market').append('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-        $("#appleSpan").data("fruitPrice", fruitArray[0].price);
-        $("#appleSpan").data("fruitName", fruitArray[0].name);
-				$("#orangeSpan").data("fruitPrice", fruitArray[1].price);
-				$("#orangeSpan").data("fruitName", fruitArray[1].name);
-				$("#bananaSpan").data("fruitPrice", fruitArray[2].price);
-				$("#bananaSpan").data("fruitName", fruitArray[2].name);
-				$("#pearSpan").data("fruitPrice", fruitArray[3].price);
-				$("#pearSpan").data("fruitName", fruitArray[3].name);
-    // var $question = $(".market").data("span");
-    // console.log($question);
+		//Adds all relavent data to the span class of a given fruit
+		$("#appleSpan").data("fruitPrice", fruitArray[0].price);
+    $("#appleSpan").data("fruitName", fruitArray[0].name);
+    $("#orangeSpan").data("fruitPrice", fruitArray[1].price);
+    $("#orangeSpan").data("fruitName", fruitArray[1].name);
+    $("#bananaSpan").data("fruitPrice", fruitArray[2].price);
+    $("#bananaSpan").data("fruitName", fruitArray[2].name);
+    $("#pearSpan").data("fruitPrice", fruitArray[3].price);
+    $("#pearSpan").data("fruitName", fruitArray[3].name);
+    //calls updating which sets the 15 second interval and replaces the price of each fruit every iteration
+    updating();
+		//event listener for the clicking of the "Buy Now" button
     $('.market').on('click', '.buynow', function() {
-        // $(this).data("fruitPrice");
-        console.log($(this).siblings('span').data("fruitPrice"));
-        console.log($(this).siblings('span').data("fruitName"));
+        // console.log($(this).siblings('span').data("fruitPrice"));
+        // console.log($(this).siblings('span').data("fruitName"));
     });
 });
-
-// function updatePrice() {
-// }
-
-function updator(fruitPrice) {
-    if ((fruitPrice.price >= .5) && (fruitPrice.price <= 9.99)) {
+//calculates the differences in pricing for fruit cost
+function updateFruitPrice(fruitPrice) {
+    if ((fruitPrice >= .5) && (fruitPrice <= 9.99)) {
+			var thePrice = fruitPrice;
+			console.log(thePrice);
         var increase = randomNumber(-50, 50);
         increase = (increase * .01);
         increase.toFixed(2);
         increase = parseFloat(increase);
-        // console.log(increase);
-        // console.log("What the heck is this", fruitPrice.price);
-        // console.log("What the heck is this", fruitPrice.price + increase);
-        if (parseFloat(fruitPrice.price + increase) < .5) {
-            fruitPrice.price = .5;
-        } else if (parseFloat(fruitPrice.price + increase) > 9.99) {
-            fruitPrice.price = 9.99;
+        if (parseFloat((thePrice + increase).toFixed(2)) < .5) {
+            thePrice = .5;
+						return thePrice;
+        } else if (parseFloat((thePrice + increase).toFixed(2)) > 9.99) {
+            thePrice = 9.99;
+						return thePrice;
         } else {
-            // fruitPrice.price.toFixed(2);
-            // fruitPrice.price = parseFloat(fruitPrice.price.toFixed(2));
-            // fruitPrice.price.toFixed(2);
-            // fruitPrice.price = parseFloat(fruitPrice.price);
-            fruitPrice.price += increase;
-            // console.log(fruitPrice.price);
-        }
+            thePrice = parseFloat((thePrice + increase).toFixed(2));
+						return thePrice;
+					}
     }
 }
-//
+//passes each index of the array fruitArray into the fruit updating function
 function updating() {
     setInterval(function() {
         for (var i = 0; i < fruitArray.length; i++) {
-            // console.log(fruitArray.length);
-            // console.log(fruitArray[i]);
-            this.price = updator(fruitArray[i]);
-            // console.log(fruitArray);
-            // $("span : fruitArray[i]['span']")
-            $('.market').children().replaceWith('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span>$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-            $('.market').children().next().replaceWith('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span>$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-            $('.market').children().next().next().replaceWith('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span>$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-            $('.market').children().next().next().next().replaceWith('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span>$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+            fruitArray[i]["price"] = updateFruitPrice(fruitArray[i]["price"]);
         }
-        seconds += 15;
-    }, 5000);
+				//Appends the corrected cost over the previous costs
+				$('.market').children().replaceWith('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+				$('.market').children().next().replaceWith('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+				$('.market').children().next().next().replaceWith('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><spanid="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+				$('.market').children().next().next().next().replaceWith('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><spanid="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+				//Adds 15 to our seconds count
+				seconds += 15;
+				//runs every 15 seconds -(15)000-
+    }, 15000);
 }
-// // fruitArray[i].price
-// console.log("price", price);
-// console.log("increase", increase)
-//
-// }
