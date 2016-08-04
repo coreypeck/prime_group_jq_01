@@ -23,14 +23,34 @@ var apple = new Fruit("apple", "2.00");
 var orange = new Fruit("orange", "2.00");
 var banana = new Fruit("banana", "2.00");
 var pear = new Fruit("pear", "2.00");
+
+//make array of totals of the number of each fruit a customer has
+var customerFruitTotal = [totalApple, totalOrange, totalBanana, totalPear];
+
+//variables that hold the average purchase price
+var avgApplePrice;
+var avgOrangePrice;
+var avgBananaPrice;
+var avgPearPrice;
+//array of average prices
+var avgPriceArray = [avgApplePrice, avgOrangePrice, avgBananaPrice, avgPearPrice];
+
+//running total of money spent on each fruit
+var totalApplePrice = 0;
+var totalOrangePrice = 0;
+var totalBananaPrice = 0;
+var totalPearPrice = 0;
+//array of total prices
+var totalPriceArray = [totalApplePrice, totalOrangePrice, totalBananaPrice, totalPearPrice];
+
 //Pushes Objects to Array
 fruitArray.push(apple, orange, banana, pear);
 $("document").ready(function() {
     //Appends the original image/button/price to the DOM
-    $('.market').append('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-    $('.market').append('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-    $('.market').append('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-    $('.market').append('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan"><p>$' + fruitArray[0]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan"><p>$' + fruitArray[1]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan"><p>$' + fruitArray[2]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan"><p>$' + fruitArray[3]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
     //Adds all relevant data to the span class of a given fruit
     updateData();
     //calls updating which sets the 15 second interval and replaces the price of each fruit every iteration
@@ -43,42 +63,51 @@ $("document").ready(function() {
         // console.log(fruitSpanName);
         //Checks to see which Fruit Button was added, the subtracts that Fruit's cost from the total and increases the Fruit Counter variable
         if (fruitSpanName == "apple") {
-            totalApple++
-            calPrice(fruitCurrentPrice);
-            calAverage();
+            var i = 0;
+            calPrice(fruitCurrentPrice, i);
+            calAverage(fruitCurrentPrice, i);
             totalReplace();
         } else if (fruitSpanName == "orange") {
-            totalOrange++
-            calPrice(fruitCurrentPrice);
-            calAverage();
+            var i = 1;
+            calPrice(fruitCurrentPrice, i);
+            calAverage(fruitCurrentPrice, i);
             totalReplace();
         } else if (fruitSpanName == "banana") {
-            totalBanana++
-            calPrice(fruitCurrentPrice);
-            calAverage();
+            var i = 2;
+            calPrice(fruitCurrentPrice, i);
+            calAverage(fruitCurrentPrice, i);
             totalReplace();
         } else if (fruitSpanName == "pear") {
-            totalPear++
-            calPrice(fruitCurrentPrice);
-            calAverage();
+            var i =3;
+            calPrice(fruitCurrentPrice, i);
+            calAverage(fruitCurrentPrice, i);
             totalReplace();
         }
     })
 });
-function calPrice(fruitCurrentPrice){
-  totalCash -= fruitCurrentPrice;
-  totalCash = totalCash.toFixed(2);
+function calPrice(fruitCurrentPrice, i){
+  if (totalCash - fruitCurrentPrice >= 0) {
+    totalCash -= fruitCurrentPrice;
+    totalCash = totalCash.toFixed(2);
+    customerFruitTotal[i]++;
+    console.log(customerFruitTotal[i]);
+  } else {
+    alert("You do not have sufficient funds for this purchase.")
+  }
 }
-function calAverage(){
-  avgPrice = 100 - totalCash;
-  avgPrice = avgPrice/(totalApple + totalOrange + totalBanana + totalPear);
-  avgPrice = avgPrice.toFixed(2);
-  $(".avgPurchasePrice").replaceWith("<p class='avgPurchasePrice'>Average Purchase Price: $" + avgPrice);
+function calAverage(fruitCurrentPrice, i){
+  totalPriceArray[i] += parseFloat(fruitCurrentPrice);
+  console.log(totalPriceArray[i]);
+  avgPriceArray[i] = totalPriceArray[i]/customerFruitTotal[i];
+  avgPriceArray[i] = (avgPriceArray[i].toFixed(2));
+  avgPriceArray[i] = parseFloat(avgPriceArray[i]);
+  console.log(avgPriceArray[i]);
+  $(".avgPurchasePrice").replaceWith("<p class='avgPurchasePrice'>Average Purchase Price: $" + avgPriceArray[i]);
 }
 //Abbreviated way of appending the new Cash Total to the DOM
 function totalReplace() {
     $("#cart").replaceWith("<p id='cart'>Cash Remaining: $" + totalCash + "</p>");
-    $(".fruitTotals").replaceWith('<p class="fruitTotals">Cart: Apples-' + totalApple + " Oranges-" + totalOrange + " Bananas-" + totalBanana + " Pears-" + totalPear + "</p>");
+    $(".fruitTotals").replaceWith('<p class="fruitTotals">Cart: Apples-' + customerFruitTotal[0] + " Oranges-" + customerFruitTotal[1] + " Bananas-" + customerFruitTotal[2] + " Pears-" + customerFruitTotal[3] + "</p>");
 }
 // console.log($("#appleSpan").data("fruitPrice"));
 // console.log($(this).siblings('span').data("fruitPrice"));
@@ -135,3 +164,10 @@ function updateFruitPrice(fruitPrice) {
         return thePrice;
     }
 }
+// function addFruit (newFruitName, imageName) {
+//    $('.market').append('<div class ="fruit" ><img id ="' + newFruitName + '" src="images/' + imageName + '"><span id=' + newFruitName +  '"Span"><p>' + newFruitName.price + '</p></span><button class ="buynow">Add to cart </button></div>');
+//  }
+//  addFruit (apple, "apple.png");
+//  addFruit (banana, "bananas.png");
+//  addFruit (orange, "orange.png");
+//  addFruit (pear, "pear.png");
