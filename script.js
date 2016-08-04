@@ -133,10 +133,10 @@ function updating() {
             console.log("New " + fruitArray[i]["name"] + "-price:" + fruitArray[i]["price"]);
         }
         //Appends the corrected cost over the previous costs
-        $('.market').children().replaceWith('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-        $('.market').children().next().replaceWith('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-        $('.market').children().next().next().replaceWith('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-        $('.market').children().next().next().next().replaceWith('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+        $('.market').children().replaceWith('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan"><p>$' + fruitArray[0]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+        $('.market').children().next().replaceWith('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan"><p>$' + fruitArray[1]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+        $('.market').children().next().next().replaceWith('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan"><p>$' + fruitArray[2]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
+        $('.market').children().next().next().next().replaceWith('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan"><p>$' + fruitArray[3]["price"] + '</p></span><button class ="buynow">Buy Now </button></div>');
         updateData();
         //Adds 15 to our seconds count
         seconds += 15;
