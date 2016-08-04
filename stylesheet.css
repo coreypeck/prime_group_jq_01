@@ -1,9 +1,10 @@
 .market {
-  background-color: papayawhip;
-  margin: 20px;
-  padding: 40px;
+    background-color: papayawhip;
+    margin: 20px;
+    padding: 40px;
 }
 .fruit {
-  width : 256px;
-  display: inline-block;
+    width: 256px;
+    display: inline-block;
 }
+#cart {}
