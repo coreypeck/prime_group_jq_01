@@ -11,6 +11,7 @@ function Fruit(name, price) {
 }
 //Initializes the Cash and Seconds variables
 var totalCash = 100;
+var avgPrice = 0;
 var totalApple = 0;
 var totalOrange = 0;
 var totalBanana = 0;
@@ -25,54 +26,64 @@ var pear = new Fruit("pear", "2.00");
 //Pushes Objects to Array
 fruitArray.push(apple, orange, banana, pear);
 $("document").ready(function() {
-//Appends the original image/button/price to the DOM
-$('.market').append('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-$('.market').append('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-$('.market').append('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-$('.market').append('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
-//Adds all relevant data to the span class of a given fruit
-updateData();
-//calls updating which sets the 15 second interval and replaces the price of each fruit every iteration
-updating();
-//event listener for the clicking of the "Buy Now" button
-$('.market').on('click', '.buynow', function() {
-    var fruitCurrentPrice = $(this).siblings('span').data("fruitPrice");
-    var fruitSpanName = $(this).siblings('span').data("fruitName");
-		// console.log(fruitCurrentPrice);
-		// console.log(fruitSpanName);
-		//Checks to see which Fruit Button was added, the subtracts that Fruit's cost from the total and increases the Fruit Counter variable
-		if(fruitSpanName=="apple"){
-			totalCash -= fruitCurrentPrice;
-      totalCash = totalCash.toFixed(2);
-			totalApple++
-			totalReplace();
-		}else if (fruitSpanName=="orange") {
-			totalCash -= fruitCurrentPrice;
-      totalCash = totalCash.toFixed(2);
-			totalOrange++
-			totalReplace();
-		}else if (fruitSpanName=="banana") {
-			totalCash -= fruitCurrentPrice;
-      totalCash = totalCash.toFixed(2);
-			totalBanana++
-			totalReplace();
-		}else if (fruitSpanName=="pear") {
-			totalCash -= fruitCurrentPrice;
-      totalCash = totalCash.toFixed(2);
-			totalPear++
-			totalReplace();
-		}
-})
+    //Appends the original image/button/price to the DOM
+    $('.market').append('<div class ="fruit" ><img id = "apple" src="images/apple-red-icon.png"><span id="appleSpan">$' + fruitArray[0]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "orange" src="images/orange-icon.png"><span id="orangeSpan">$' + fruitArray[1]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "banana" src="images/banana-icon.png"><span id="bananaSpan">$' + fruitArray[2]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+    $('.market').append('<div class ="fruit" ><img id = "pear" src="images/pear-icon.png"><span id="pearSpan">$' + fruitArray[3]["price"] + '</span><button class ="buynow">Buy Now </button></div>');
+    //Adds all relevant data to the span class of a given fruit
+    updateData();
+    //calls updating which sets the 15 second interval and replaces the price of each fruit every iteration
+    updating();
+    //event listener for the clicking of the "Buy Now" button
+    $('.market').on('click', '.buynow', function() {
+        var fruitCurrentPrice = $(this).siblings('span').data("fruitPrice");
+        var fruitSpanName = $(this).siblings('span').data("fruitName");
+        // console.log(fruitCurrentPrice);
+        // console.log(fruitSpanName);
+        //Checks to see which Fruit Button was added, the subtracts that Fruit's cost from the total and increases the Fruit Counter variable
+        if (fruitSpanName == "apple") {
+            totalApple++
+            calPrice(fruitCurrentPrice);
+            calAverage();
+            totalReplace();
+        } else if (fruitSpanName == "orange") {
+            totalOrange++
+            calPrice(fruitCurrentPrice);
+            calAverage();
+            totalReplace();
+        } else if (fruitSpanName == "banana") {
+            totalBanana++
+            calPrice(fruitCurrentPrice);
+            calAverage();
+            totalReplace();
+        } else if (fruitSpanName == "pear") {
+            totalPear++
+            calPrice(fruitCurrentPrice);
+            calAverage();
+            totalReplace();
+        }
+    })
+});
+function calPrice(fruitCurrentPrice){
+  totalCash -= fruitCurrentPrice;
+  totalCash = totalCash.toFixed(2);
+}
+function calAverage(){
+  avgPrice = 100 - totalCash;
+  avgPrice = avgPrice/(totalApple + totalOrange + totalBanana + totalPear);
+  avgPrice = avgPrice.toFixed(2);
+  $(".avgPurchasePrice").replaceWith("<p class='avgPurchasePrice'>Average Purchase Price: $" + avgPrice);
+}
 //Abbreviated way of appending the new Cash Total to the DOM
-function totalReplace(){
-	$("#cart").replaceWith("<p id='cart'>Cash Remaining: $" + totalCash + "</p>");
-	$(".fruitTotals").replaceWith('<p class="fruitTotals">Cart: Apples-' + totalApple + " Oranges-" + totalOrange + " Bananas-" + totalBanana + " Pears-" + totalPear + "</p>");
+function totalReplace() {
+    $("#cart").replaceWith("<p id='cart'>Cash Remaining: $" + totalCash + "</p>");
+    $(".fruitTotals").replaceWith('<p class="fruitTotals">Cart: Apples-' + totalApple + " Oranges-" + totalOrange + " Bananas-" + totalBanana + " Pears-" + totalPear + "</p>");
 }
 // console.log($("#appleSpan").data("fruitPrice"));
 // console.log($(this).siblings('span').data("fruitPrice"));
 // console.log($(this).siblings('span').data("fruitName"));
 
-});
 //the Function to update Data
 function updateData() {
     $("#appleSpan").data("fruitPrice", fruitArray[0].price);
