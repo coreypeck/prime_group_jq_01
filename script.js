@@ -43,18 +43,22 @@ $('.market').on('click', '.buynow', function() {
 		//Checks to see which Fruit Button was added, the subtracts that Fruit's cost from the total and increases the Fruit Counter variable
 		if(fruitSpanName=="apple"){
 			totalCash -= fruitCurrentPrice;
+      totalCash = totalCash.toFixed(2);
 			totalApple++
 			totalReplace();
 		}else if (fruitSpanName=="orange") {
 			totalCash -= fruitCurrentPrice;
+      totalCash = totalCash.toFixed(2);
 			totalOrange++
 			totalReplace();
 		}else if (fruitSpanName=="banana") {
 			totalCash -= fruitCurrentPrice;
+      totalCash = totalCash.toFixed(2);
 			totalBanana++
 			totalReplace();
 		}else if (fruitSpanName=="pear") {
 			totalCash -= fruitCurrentPrice;
+      totalCash = totalCash.toFixed(2);
 			totalPear++
 			totalReplace();
 		}
